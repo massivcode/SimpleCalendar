@@ -17,8 +17,6 @@ import com.massivcode.simplecalendar.models.Event;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by massivcode@gmail.com on 2017. 9. 7. 13:47
  */
@@ -125,7 +123,7 @@ public class CustomCalendarAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         CustomCalendarHeaderViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.title_tv);
         }
     }
 
@@ -136,7 +134,9 @@ public class CustomCalendarAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         CustomCalendarViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+
+            mDateTextView = (TextView) itemView.findViewById(R.id.date_tv);
+            mFirstEventTextView = (TextView) itemView.findViewById(R.id.first_event_tv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

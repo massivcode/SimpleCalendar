@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dgreenhalgh.android.simpleitemdecoration.grid.GridDividerItemDecoration;
@@ -41,23 +42,18 @@ public class CustomCalendar extends LinearLayout {
     private static final int mDefaultMovePreviousIcon = R.drawable.default_arrow_left;
     private static final int mDefaultMoveNextIcon = R.drawable.default_arrow_right;
 
-//    @BindView(R.id.custom_calendar_root_container)
-    LinearLayout mRootContainer;
+    private LinearLayout mRootContainer;
 
-//    @BindView(R.id.custom_calendar_indicator_container)
-    LinearLayout mIndicatorContainer;
+    private LinearLayout mIndicatorContainer;
 
-//    @BindView(R.id.custom_calendar_move_previous_iv)
-    ImageView mMovePreviousMonthImageView;
+    private ImageView mMovePreviousMonthImageView;
 
-//    @BindView(R.id.custom_calendar_current_year_month_tv)
-    TextView mCurrentYearAndMonthTextView;
+    private TextView mCurrentYearAndMonthTextView;
 
-//    @BindView(R.id.custom_calendar_move_next_iv)
-    ImageView mMoveNextMonthImageView;
+    private ImageView mMoveNextMonthImageView;
 
-//    @BindView(R.id.custom_calendar_rv)
-    RecyclerView mRecyclerView;
+    private RelativeLayout mRecyclerViewContainer;
+    private RecyclerView mRecyclerView;
 
     private String mYearDelimiter = DEFAULT_YEAR_DELIMITER;
     private String mMonthDelimiter = DEFAULT_MONTH_DELIMITER;
@@ -93,6 +89,14 @@ public class CustomCalendar extends LinearLayout {
         Context context = getContext();
 
         inflate(context, R.layout.layout_custom_calendar, this);
+
+        mRootContainer = (LinearLayout) findViewById(R.id.custom_calendar_root_container);
+        mIndicatorContainer = (LinearLayout) findViewById(R.id.custom_calendar_indicator_container);
+        mMovePreviousMonthImageView = (ImageView) findViewById(R.id.custom_calendar_move_previous_iv);
+        mCurrentYearAndMonthTextView = (TextView) findViewById(R.id.custom_calendar_current_year_month_tv);
+        mMoveNextMonthImageView = (ImageView) findViewById(R.id.custom_calendar_move_next_iv);
+        mRecyclerViewContainer = (RelativeLayout) findViewById(R.id.custom_calendar_rv_container);
+        mRecyclerView = (RecyclerView) findViewById(R.id.custom_calendar_rv);
 
         mCustomCalendarAdapter = new CustomCalendarAdapter(
                 new CalendarHeaderConfig(Arrays.asList("일", "월", "화", "수", "목", "금", "토"), Arrays.asList(mSundayColor, mWeekdayColor, mWeekdayColor, mWeekdayColor, mWeekdayColor, mWeekdayColor, mSaturdayColor)),
