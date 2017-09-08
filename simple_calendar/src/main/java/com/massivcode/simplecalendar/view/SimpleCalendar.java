@@ -31,7 +31,7 @@ import java.util.Arrays;
  * Created by massivcode@gmail.com on 2017. 9. 7. 12:39
  */
 
-public class CustomCalendar extends LinearLayout {
+public class SimpleCalendar extends LinearLayout {
     private static final String YEAR_MONTH_FORMAT = "{Y}{YD} {M}{MD}";
     private static final String DEFAULT_YEAR_DELIMITER = "년";
     private static final String DEFAULT_MONTH_DELIMITER = "월";
@@ -71,15 +71,15 @@ public class CustomCalendar extends LinearLayout {
     private CalendarCallback mCalendarCallback;
     private CustomCalendarAdapter mCustomCalendarAdapter;
 
-    public CustomCalendar(Context context) {
+    public SimpleCalendar(Context context) {
         this(context, null);
     }
 
-    public CustomCalendar(Context context, @Nullable AttributeSet attrs) {
+    public SimpleCalendar(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CustomCalendar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SimpleCalendar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         initialize();
@@ -97,6 +97,9 @@ public class CustomCalendar extends LinearLayout {
         mMoveNextMonthImageView = (ImageView) findViewById(R.id.custom_calendar_move_next_iv);
         mRecyclerViewContainer = (RelativeLayout) findViewById(R.id.custom_calendar_rv_container);
         mRecyclerView = (RecyclerView) findViewById(R.id.custom_calendar_rv);
+
+        mMovePreviousMonthImageView.setOnClickListener(mOnPreviousMonthClick);
+        mMoveNextMonthImageView.setOnClickListener(mOnNextMonthClick);
 
         mCustomCalendarAdapter = new CustomCalendarAdapter(
                 new CalendarHeaderConfig(Arrays.asList("일", "월", "화", "수", "목", "금", "토"), Arrays.asList(mSundayColor, mWeekdayColor, mWeekdayColor, mWeekdayColor, mWeekdayColor, mWeekdayColor, mSaturdayColor)),
@@ -159,29 +162,35 @@ public class CustomCalendar extends LinearLayout {
         mCalendarCallback = callback;
     }
 
-    protected void onPreviousMonthClick(View view) {
-        int tempMonth = mCurrentMonth - 1;
-        int tempYear = mCurrentYear;
+    private View.OnClickListener mOnPreviousMonthClick = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int tempMonth = mCurrentMonth - 1;
+            int tempYear = mCurrentYear;
 
-        if (tempMonth < 1) {
-            tempMonth = 12;
-            tempYear -= 1;
+            if (tempMonth < 1) {
+                tempMonth = 12;
+                tempYear -= 1;
+            }
+
+            changeYearAndMonth(tempYear, tempMonth);
         }
+    };
 
-        changeYearAndMonth(tempYear, tempMonth);
-    }
+    private View.OnClickListener mOnNextMonthClick = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int tempMonth = mCurrentMonth + 1;
+            int tempYear = mCurrentYear;
 
-    protected void onNextMonthClick(View view) {
-        int tempMonth = mCurrentMonth + 1;
-        int tempYear = mCurrentYear;
+            if (tempMonth > 12) {
+                tempMonth = 1;
+                tempYear += 1;
+            }
 
-        if (tempMonth > 12) {
-            tempMonth = 1;
-            tempYear += 1;
+            changeYearAndMonth(tempYear, tempMonth);
         }
-
-        changeYearAndMonth(tempYear, tempMonth);
-    }
+    };
 
     public void changeYearAndMonth(int year, int month) {
         if (month < 1 || month > 12) {
